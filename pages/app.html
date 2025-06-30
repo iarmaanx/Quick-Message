@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Message | Inbox</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="relative min-h-screen flex flex-col bg-cover bg-center"
+  style="background-image: url('https://static.vecteezy.com/system/resources/previews/001/555/337/non_2x/christmas-theme-with-santa-claus-and-his-helpers-free-vector.jpg');">
+
+  <!-- Dark overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
+
+  <!-- Header -->
+  <header class="relative z-10 w-full p-6 flex items-center justify-between bg-white bg-opacity-80 shadow-md">
+    <div class="flex items-center gap-3">
+      <img src="/src/logo.png" alt="Quick Message Logo" class="h-10 w-10 rounded-lg">
+      <h1 class="text-2xl font-bold text-blue-600">🎄 Quick Message</h1>
+    </div>
+    <button onclick="logout()"
+      class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition text-sm">Logout</button>
+  </header>
+
+  <!-- Main Chat Area -->
+  <div class="relative z-10 flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white bg-opacity-80 p-5 border-r border-gray-200 hidden md:block">
+      <h2 class="text-lg font-semibold mb-4 text-blue-600">Chats</h2>
+      <ul id="chatList" class="space-y-3">
+        <li class="p-3 bg-blue-100 rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200">Armaan</li>
+        <li class="p-3 bg-blue-100 rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200">Priya</li>
+        <li class="p-3 bg-blue-100 rounded-lg text-blue-700 cursor-pointer hover:bg-blue-200">Rahul</li>
+      </ul>
+    </aside>
+
+    <!-- Chat Section -->
+    <main class="flex-1 flex flex-col justify-between">
+      <!-- Chat messages -->
+      <div id="chatWindow" class="flex-1 p-6 overflow-y-auto space-y-4">
+        <div class="text-gray-200 text-sm text-center">Welcome to Quick Message 🎅🎄</div>
+      </div>
+
+      <!-- Input area -->
+      <div class="flex p-4 bg-white bg-opacity-90 border-t border-gray-200">
+        <input type="text" id="messageInput" placeholder="Type a message..."
+          class="flex-1 border border-gray-300 rounded-l-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button onclick="sendMessage()"
+          class="bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-blue-700 transition">Send</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Mock send message function
+    function sendMessage() {
+      const messageInput = document.getElementById("messageInput");
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      const chatWindow = document.getElementById("chatWindow");
+      const messageDiv = document.createElement("div");
+      messageDiv.className = "p-3 bg-blue-100 rounded-lg max-w-xs text-left text-blue-700";
+      messageDiv.textContent = message;
+      chatWindow.appendChild(messageDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+      messageInput.value = "";
+    }
+
+    // Send message on Enter key
+    document.getElementById("messageInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Mock logout
+    function logout() {
+      if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "../index.html";
+      }
+    }
+  </script>
+
+</body>
+
+</html>
