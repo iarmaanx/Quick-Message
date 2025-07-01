@@ -10,56 +10,69 @@
 
 <body class="relative min-h-screen flex flex-col">
 
-  <!-- Fullscreen Image Background -->
+  <!-- Fullscreen Background Image -->
   <div class="fixed inset-0">
-  <img src="/src/christmas.jpg" alt="Christmas Background" class="w-full h-full object-cover" />
+    <img src="/src/christmas.jpg" alt="Christmas Background" class="w-full h-full object-cover" />
   </div>
 
-  <!-- Dark overlay -->
-  <div class="absolute inset-0 bg-black bg-opacity-20 z-0"></div>
+  <!-- Dark Blur Overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-0"></div>
 
-  <!-- Loader Overlay -->
-  <div id="loader" class="fixed inset-0 bg-white flex items-center justify-center z-50">
-    <div class="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+ <!-- Loader Overlay -->
+<div id="loader" class="fixed inset-0 flex items-center justify-center z-50">
+
+  <!-- Loader Background Image -->
+  <div class="absolute inset-0">
+    <img src="/src/christmas.jpg" alt="Christmas Background" class="w-full h-full object-cover" />
   </div>
+
+  <!-- Blur + Dark overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm"></div>
+
+  <!-- Loader Spinner -->
+  <div class="relative z-10 animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+
+</div>
+
 
   <!-- Header -->
-  <header class="relative z-10 w-full p-6 flex items-center gap-3 bg-white bg-opacity-80 shadow-lg">
+  <header class="relative z-10 w-full p-4 md:p-6 flex items-center gap-3 backdrop-blur-sm bg-white/70 shadow-lg">
     <a href="/index.html" class="flex items-center gap-3">
       <img src="/src/logo.png" alt="Quick Message Logo" class="h-10 w-10 rounded-lg" />
-      <h1 class="text-3xl font-bold text-blue-600"> Quick Message</h1>
+      <h1 class="text-2xl md:text-3xl font-bold text-blue-600">Quick Message</h1>
     </a>
   </header>
 
   <!-- Centered Login Card -->
-  <div class="relative z-10 flex flex-1 items-center justify-center px-4">
-    <div class="bg-white bg-opacity-90 rounded-2xl shadow-2xl p-10 w-full max-w-md text-center">
-      <h2 class="text-3xl font-bold text-blue-700 mb-6">Login 🎄</h2>
+  <div class="relative z-10 flex flex-1 items-center justify-center px-4 py-8">
+    <div
+      class="text-center text-black p-6 md:p-8 rounded-xl backdrop-blur-sm bg-white/80 shadow-2xl w-full max-w-sm md:max-w-md">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6">Login 🎄</h2>
 
       <form class="space-y-5">
         <div class="text-left">
-          <label for="email" class="block text-sm font-semibold text-gray-600 mb-1">Email</label>
-          <input type="email" id="email" placeholder="you@example.com"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <label for="email" class="block text-sm font-semibold text-gray-800 mb-1">Email</label>
+          <input type="email" id="email" placeholder=""
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/20 text-black placeholder-gray-500"
             required />
         </div>
 
         <div class="text-left">
-          <label for="password" class="block text-sm font-semibold text-gray-600 mb-1">Password</label>
-          <input type="password" id="password" placeholder="••••••••"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <label for="password" class="block text-sm font-semibold text-gray-800 mb-1">Password</label>
+          <input type="password" id="password" placeholder=""
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/20 text-black placeholder-gray-500"
             required />
         </div>
 
         <button type="submit"
-          class="w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-lg transition">Login</button>
+          class="w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-base md:text-lg transition">Login</button>
       </form>
 
-      <p class="mt-6 text-sm text-gray-600">Don't have an account?
+      <p class="mt-6 text-sm text-gray-700">Don't have an account?
         <a href="signup.html" class="text-blue-600 font-semibold hover:underline">Sign Up</a>
       </p>
 
-      <a href="/index.html" class="mt-4 inline-block text-blue-500 hover:underline text-sm">← Back to Home</a>
+      <a href="/index.html" class="mt-4 inline-block text-blue-600 hover:underline text-sm">← Back to Home</a>
     </div>
   </div>
 
@@ -68,7 +81,7 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
-      }, 500);
+      }, 1500);
     });
   </script>
 

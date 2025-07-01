@@ -8,118 +8,101 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
+<body class="relative min-h-screen flex flex-col text-gray-800">
 
-<body class="bg-gradient-to-br from-blue-50 to-blue-100">
-
-
-<!-- Header -->
-<header class="w-full p-6 flex justify-between items-center bg-white shadow-md">
-  <div class="flex items-center gap-3">
-    <img src="src/logo.png" alt="Quick Message Logo" class="h-10 w-10 rounded-lg" />
-    <h1 class="text-3xl font-bold text-blue-600">Quick Message</h1>
+  <!-- Fullscreen Background Image -->
+  <div class="fixed inset-0">
+    <img src="src/christmas.jpg" alt="Christmas Background" class="w-full h-full object-cover" />
   </div>
-  <button onclick="openModal()" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
-    Get Started
-  </button>
-</header>
 
+  <!-- Dark Blur Overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
+
+  <!-- Header -->
+  <header class="relative z-10 w-full p-4 md:p-6 flex justify-between items-center bg-white/80 backdrop-blur-sm shadow-md">
+    <div class="flex items-center gap-3">
+      <img src="src/logo.png" alt="Quick Message Logo" class="h-10 w-10 rounded-lg" />
+      <h1 class="text-2xl md:text-3xl font-bold text-blue-600">Quick Message</h1>
+    </div>
+    <button onclick="openModal()" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-sm md:text-base">
+      Get Started
+    </button>
+  </header>
 
   <!-- Hero Section -->
-  <section class="text-center py-20 px-4 max-w-3xl mx-auto">
-    <h2 id="typewriter" class="text-5xl font-extrabold text-blue-800 mb-12 h-20"></h2>
-    <p class="text-lg text-gray-600 mb-8">
+  <section class="relative z-10 text-center py-16 md:py-24 px-4 max-w-3xl mx-auto">
+    <h2 id="typewriter" class="text-3xl md:text-5xl font-extrabold text-white mb-16 h-20"></h2>
+    <p class="text-base md:text-lg text-white/90 mb-8">
       Stay connected with the people who matter most — with instant, encrypted, and seamless messaging across devices.
     </p>
-    <button onclick="openModal()" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-lg">
+    <button onclick="openModal()" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-base md:text-lg">
       Start Messaging
     </button>
   </section>
 
-<!-- Features Section -->
-<section class="py-16 px-4 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🔒 End-to-End Encryption</h3>
-    <p class="text-gray-600 group-hover:text-white">Your messages stay private and secure with industry-standard encryption.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">⚡ Instant Messaging</h3>
-    <p class="text-gray-600 group-hover:text-white">Send and receive messages in real-time with zero delays.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🖼️ Media Sharing</h3>
-    <p class="text-gray-600 group-hover:text-white">Easily share images, videos, and files with your friends.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🌙 Dark & Light Mode</h3>
-    <p class="text-gray-600 group-hover:text-white">Switch themes to suit your style and comfort.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">📲 Cross-Device Sync</h3>
-    <p class="text-gray-600 group-hover:text-white">Stay connected on your phone, tablet, and desktop.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">💬 Group Chats</h3>
-    <p class="text-gray-600 group-hover:text-white">Create and manage group conversations effortlessly.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🎉 Message Reactions</h3>
-    <p class="text-gray-600 group-hover:text-white">React to messages with emojis and express yourself better.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">💡 Typing Indicators</h3>
-    <p class="text-gray-600 group-hover:text-white">See when your friends are typing in real-time.</p>
-  </div>
-
-  <div class="p-6 bg-white rounded-2xl shadow-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300 group">
-    <h3 class="text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🟢 Online Status</h3>
-    <p class="text-gray-600 group-hover:text-white">Know who's available to chat instantly.</p>
-  </div>
-</section>
-
-
-<!-- Footer -->
-<footer class="mt-12 p-6 text-center text-gray-500 text-sm">
-  <p>© 2025 Quick Message. All rights reserved.</p>
-  <p class="mt-2">
-    Coded by 
-    <a href="https://github.com/armaan-dev" target="_blank" class="text-blue-600 hover:underline">
-      Armaan
-    </a>
-  </p>
-</footer>
-
-<!-- Modal Popup -->
-<div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
-    <h2 class="text-2xl font-bold text-blue-700 mb-4">Welcome to Quick Message!</h2>
-    <p class="text-gray-600 mb-6">Please choose an option to continue:</p>
-    <div class="flex flex-col gap-4">
-      <a href="pages/login.html" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Login</a>
-      <a href="pages/signup.html" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Sign Up</a>
+  <!-- Features Section -->
+  <section class="relative z-10 py-16 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    <div class="p-6 bg-white/80 rounded-2xl shadow-lg hover:scale-105 hover:bg-yellow-700 transition-all group">
+      <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🔒 End-to-End Encryption</h3>
+      <p class="text-gray-700 group-hover:text-white">Your messages stay private and secure with industry-standard encryption.</p>
     </div>
-    <button onclick="closeModal()" class="mt-6 text-blue-500 hover:underline text-sm">Close</button>
+
+    <div class="p-6 bg-white/80 rounded-2xl shadow-lg hover:scale-105 hover:bg-yellow-700 transition-all group">
+      <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-2 group-hover:text-white">⚡ Instant Messaging</h3>
+      <p class="text-gray-700 group-hover:text-white">Send and receive messages in real-time with zero delays.</p>
+    </div>
+
+    <div class="p-6 bg-white/80 rounded-2xl shadow-lg hover:scale-105 hover:bg-yellow-700 transition-all group">
+      <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🖼️ Media Sharing</h3>
+      <p class="text-gray-700 group-hover:text-white">Easily share images, videos, and files with your friends.</p>
+    </div>
+
+    <div class="p-6 bg-white/80 rounded-2xl shadow-lg hover:scale-105 hover:bg-yellow-700 transition-all group">
+      <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-2 group-hover:text-white">🌙 Dark & Light Mode</h3>
+      <p class="text-gray-700 group-hover:text-white">Switch themes to suit your style and comfort.</p>
+    </div>
+
+    <div class="p-6 bg-white/80 rounded-2xl shadow-lg hover:scale-105 hover:bg-yellow-700 transition-all group">
+      <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-2 group-hover:text-white">📲 Cross-Device Sync</h3>
+      <p class="text-gray-700 group-hover:text-white">Stay connected on your phone, tablet, and desktop.</p>
+    </div>
+
+    <div class="p-6 bg-white/80 rounded-2xl shadow-lg hover:scale-105 hover:bg-yellow-700 transition-all group">
+      <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-2 group-hover:text-white">💬 Group Chats</h3>
+      <p class="text-gray-700 group-hover:text-white">Create and manage group conversations effortlessly.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative z-10 mt-12 p-6 text-center text-white/80 text-sm">
+    <p>© 2025 Quick Message. All rights reserved.</p>
+    <p class="mt-2">Coded by 
+      <a href="https://github.com/armaan-dev" target="_blank" class="text-blue-400 hover:underline">Armaan</a>
+    </p>
+  </footer>
+
+  <!-- Modal Popup -->
+  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
+      <h2 class="text-2xl font-bold text-blue-700 mb-4">Welcome to Quick Message!</h2>
+      <p class="text-gray-600 mb-6">Please choose an option to continue:</p>
+      <div class="flex flex-col gap-4">
+        <a href="pages/login.html" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Login</a>
+        <a href="pages/signup.html" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Sign Up</a>
+      </div>
+      <button onclick="closeModal()" class="mt-6 text-blue-500 hover:underline text-sm">Close</button>
+    </div>
   </div>
-</div>
 
+  <!-- Typewriter & Modal Script -->
+  <script>
+    function openModal() {
+      document.getElementById("authModal").classList.remove("hidden");
+    }
 
-<script>
-  function openModal() {
-    document.getElementById("authModal").classList.remove("hidden");
-  }
-
-  function closeModal() {
-    document.getElementById("authModal").classList.add("hidden");
-  }
-
-
-
+    function closeModal() {
+      document.getElementById("authModal").classList.add("hidden");
+    }
 
     const text = "Fast, Secure & Simple Messaging.";
     let index = 0;
@@ -135,14 +118,12 @@
           document.getElementById("typewriter").innerHTML = "";
           index = 0;
           typeWriter();
-        }, 1000);  // 1 sec pause before restarting
+        }, 1000);
       }
     }
 
     window.onload = typeWriter;
-    </script>
-
-
+  </script>
 
 </body>
 
