@@ -71,7 +71,7 @@
             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500" required />
           <button type="button"
             class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
-            onclick="nextStep('email')">Next</button>
+            onclick="if(validateName()) nextStep('email')">Next</button>
         </div>
 
         <!-- Step 2: Email -->
@@ -96,17 +96,22 @@
             class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
             onclick="verifyCode()">Verify</button>
         </div>
-        
+
 
               <!-- Step 3: Platform ID -->
-        <div id="step-platform" class="hidden">
-          <label class="block text-left text-sm font-semibold text-gray-800 mb-1">Platform ID</label>
-          <input type="text" id="platformId" placeholder="Enter your Platform ID"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500" required />
-          <button type="button"
-            class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
-            onclick="nextStep('password')">Next</button>
-        </div>
+    <div id="step-platform" class="hidden">
+      <label class="block text-left text-sm font-semibold text-gray-800 mb-1">Platform ID</label>
+      <div class="relative">
+        <input type="text" id="platformId" placeholder="name123456"
+          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500" required
+          oninput="validatePlatformId()" />
+        <span id="platformStatus" class="absolute right-4 top-1/2 -translate-y-1/2 text-xl"></span>
+      </div>
+      <button type="button"
+  class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+  onclick="handlePlatformNext()">Next</button>
+    </div>
+
 
         <!-- Step 4: Password -->
         <div id="step-password" class="hidden">
@@ -130,6 +135,18 @@
 
     </div>
   </div>
+
+
+  <!-- Custom Popup Box -->
+<div id="popupBox" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+  <div class="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm"></div>
+  <div class="relative z-10 bg-white rounded-xl p-6 w-[90%] max-w-sm text-center shadow-2xl">
+    <h3 id="popupMessage" class="text-lg font-semibold text-gray-800 mb-4"></h3>
+    <button onclick="closePopup()"
+      class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Okay</button>
+  </div>
+</div>
+
 
 <script src="signup.js"></script>
 

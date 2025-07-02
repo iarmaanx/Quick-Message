@@ -5,6 +5,17 @@
       }, 1000);
     });
 
+// Pop- Up Box
+    function showPopup(message) {
+      document.getElementById('popupMessage').textContent = message;
+      document.getElementById('popupBox').classList.remove('hidden');
+    }
+
+    function closePopup() {
+      document.getElementById('popupBox').classList.add('hidden');
+    }
+
+
         function nextStep(nextId) {
       const visibleStep = document.querySelector('form > div:not(.hidden)');
       const input = visibleStep.querySelector('input');
@@ -18,29 +29,144 @@
       focusFirstInput(); // move focus to next input
     }
 
+// Validate the name
 
-    function sendVerification() {
-      const email = document.getElementById('email');
-      if (!email.value) {
-        email.reportValidity();
-        return;
+function validateName() {
+  const nameInput = document.getElementById('name');
+  const nameValue = nameInput.value.trim();
+
+  if (nameValue === "") {
+    showPopup("Please enter your name.");
+    nameInput.focus();
+    return false;
+  }
+
+  // ✅ The missing regex definition
+  const nameRegex = /^[A-Za-z\s]+$/;
+  if (!nameRegex.test(nameValue)) {
+    showPopup("❌ Name cannot contain numbers or special characters.");
+    nameInput.focus();
+    return false;
+  }
+
+  return true;
+}
+
+
+
+
+      function sendVerification() {
+        const emailInput = document.getElementById('email');
+        const emailValue = emailInput.value.trim();
+
+        if (!emailValue) {
+          emailInput.reportValidity();
+          return;
+        }
+
+        // ✅ Email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailValue)) {
+          showPopup("Please enter a valid email address.");
+          emailInput.focus();
+          return;
+        }
+
+        // 🔍 Check if email already exists in JSONBin
+                fetch(JSONBIN_URL + '/latest', {
+          method: 'GET',
+          headers: {
+            'X-Master-Key': JSONBIN_API_KEY
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          let existingUsers = data.record;
+
+          if (!Array.isArray(existingUsers)) {
+            existingUsers = [];  // if not an array, treat as empty
+          }
+
+          const emailExists = existingUsers.some(user => user.email === emailValue);
+
+          if (emailExists) {
+            showPopup("🚫 This email is already registered. Please login instead.");
+            return;
+          }
+
+          showPopup("Verification code sent to " + emailValue);
+          nextStep('verification');
+        })
+        .catch(error => {
+          console.error('Error checking email:', error);
+          showPopup("Something went wrong while verifying email.");
+        });
       }
-      alert("Verification code sent to " + email.value);
-      nextStep('verification');
-    }
+
+
 
     function verifyCode() {
       const code = document.getElementById('verificationCode').value;
       if (code === "") {
-        alert("Please enter the verification code.");
+        showPopup("Please enter the verification code.");
         return;
       }
       if (code !== "1234") {
-        alert("Incorrect code. Try '1234' to proceed for demo.");
+        showPopup("Incorrect code. Try '1234' to proceed for demo.");
         return;
       }
       nextStep('platform');
     }
+
+
+let isPlatformValid = false;
+
+function validatePlatformId() {
+  const platformInput = document.getElementById('platformId');
+  const platformValue = platformInput.value.trim();
+  const statusIcon = document.getElementById('platformStatus');
+
+
+
+  // Check uniqueness from JSONBin
+  fetch(JSONBIN_URL + '/latest', {
+    method: 'GET',
+    headers: {
+      'X-Master-Key': JSONBIN_API_KEY
+    }
+  })
+  .then(response => response.json())
+ .then(data => {
+  let existingUsers = data.record;
+
+  if (!Array.isArray(existingUsers)) {
+    existingUsers = [];
+  }
+
+  const idExists = existingUsers.some(user => user.platform === platformValue);
+
+  if (idExists) {
+    statusIcon.textContent = "❌";
+    statusIcon.classList.remove('text-green-600');
+    statusIcon.classList.add('text-red-600');
+    isPlatformValid = false;
+  } else {
+    statusIcon.textContent = "✅";
+    statusIcon.classList.remove('text-red-600');
+    statusIcon.classList.add('text-green-600');
+    isPlatformValid = true;
+  }
+})
+
+  .catch(error => {
+    console.error('Error checking Platform ID:', error);
+    statusIcon.textContent = "⚠️";
+    statusIcon.classList.remove('text-green-600', 'text-red-600');
+    statusIcon.classList.add('text-yellow-500');
+    isPlatformValid = false;
+  });
+}
+
 
         function focusFirstInput() {
       const visibleStep = document.querySelector('form > div:not(.hidden)');
@@ -58,10 +184,23 @@
           if (e.key === 'Enter') {
             e.preventDefault();
             const stepId = this.closest('div').id;
-            if (stepId === 'step-name') nextStep('email');
+            if (stepId === 'step-name') {
+              if (validateName()) nextStep('email');
+            }
             else if (stepId === 'step-email') sendVerification();
             else if (stepId === 'step-verification') verifyCode();
-            else if (stepId === 'step-platform') nextStep('password');
+            else if (stepId === 'step-platform') {
+              const platformInput = document.getElementById('platformId');
+              const platformValue = platformInput.value.trim();
+
+              // If not valid (from live check)
+              if (!isPlatformValid) {
+                showPopup("🚫 This Platform ID is already taken. Choose another.");
+                return;
+              }
+
+              nextStep('password');
+            }
             else if (stepId === 'step-password') {
               document.getElementById('signupForm').requestSubmit();
             }
@@ -69,6 +208,21 @@
         });
       });
     }
+
+
+        function handlePlatformNext() {
+      const platformInput = document.getElementById('platformId');
+      const platformValue = platformInput.value.trim();
+
+
+      if (!isPlatformValid) {
+        showPopup("🚫 This Platform ID is already taken. Choose another.");
+        return;
+      }
+
+      nextStep('password');
+    }
+
 
 
     function togglePassword() {
@@ -86,52 +240,74 @@
     // Form Submit Handling 
 
         // 🔐 JSONBin Configuration
-        const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE';
-        const JSONBIN_BIN_ID = 'YOUR_BIN_ID_HERE';
+        const JSONBIN_API_KEY = '$2a$10$zfkeuMdpszTDDjZmrJa8S.Lp2Zm./Ck6QPgUnWJ5BwTNI4srWthjG';
+        const JSONBIN_BIN_ID = '686505fa8561e97a50302a7a';
         const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
         // ⚡ Submit Handler
         document.getElementById('signupForm').addEventListener('submit', function (e) {
-        e.preventDefault();
+  e.preventDefault();
 
-        // Collect form values
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const platform = document.getElementById('platform').value;
-        const password = document.getElementById('password').value;
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const platform = document.getElementById('platformId').value;
+  const password = document.getElementById('password').value;
 
-        // Simple validation
-        if (!name || !email || !platform || !password) {
-            alert("Please fill all fields.");
-            return;
-        }
+  if (!name || !email || !platform || !password) {
+    showPopup("Please fill all fields.");
+    return;
+  }
 
-        const userData = {
-            name: name,
-            email: email,
-            platform: platform,
-            password: password
-        };
+  if (!isPlatformValid) {
+    showPopup("🚫 This Platform ID is already taken. Choose another.");
+    return;
+  }
 
-        // Send data to JSONBin
-        fetch(JSONBIN_URL, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': JSONBIN_API_KEY
-            },
-            body: JSON.stringify(userData)
-        })
-            .then(response => response.json())
-            .then(data => {
-            console.log(data);
-            alert("✅ Account created successfully! Redirecting to your inbox...");
-            setTimeout(() => {
-                window.location.href = 'app.html';
-            }, 800);
-            })
-            .catch(error => {
-            console.error('Error:', error);
-            alert("Something went wrong while creating your account.");
-            });
-        });
+  const userData = {
+    name: name,
+    email: email,
+    platform: platform,
+    password: password
+  };
+
+  // Step 1: Get existing users
+  fetch(JSONBIN_URL + '/latest', {
+    method: 'GET',
+    headers: {
+      'X-Master-Key': JSONBIN_API_KEY
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    let users = data.record;
+
+    if (!Array.isArray(users)) {
+      users = []; // Initialize as array if empty or not yet an array
+    }
+
+    users.push(userData); // Add new user
+
+    // Step 2: PUT updated array back
+    return fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_API_KEY,
+        'X-Bin-Versioning': 'false'
+      },
+      body: JSON.stringify(users)
+    });
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    showPopup("✅ Account created successfully! Redirecting to your inbox...");
+    setTimeout(() => {
+      window.location.href = 'app.html';
+    }, 800);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    showPopup("Something went wrong while creating your account.");
+  });
+});

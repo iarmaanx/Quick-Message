@@ -79,17 +79,67 @@
 
   <script>
     // Loader timeout logic
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-      }, 1000);
-    });
+    // JSONBin Config
+const JSONBIN_API_KEY = '$2a$10$zfkeuMdpszTDDjZmrJa8S.Lp2Zm./Ck6QPgUnWJ5BwTNI4srWthjG';
+const JSONBIN_BIN_ID = '686505fa8561e97a50302a7a';
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // prevent actual form submission
-      // you can add validation here if needed
-      window.location.href = '/pages/app.html';
-    });
+// Loader timeout logic
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 1000);
+});
+
+// Login Form Submit Handler
+document.getElementById('loginForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!email || !password) {
+    alert("Please fill in both email and password.");
+    return;
+  }
+
+  // Fetch users from JSONBin
+  fetch(JSONBIN_URL + '/latest', {
+    method: 'GET',
+    headers: {
+      'X-Master-Key': JSONBIN_API_KEY
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    let users = data.record;
+
+    if (!Array.isArray(users)) {
+      users = []; // if bin is empty or invalid
+    }
+
+    const user = users.find(user => user.email === email);
+
+    if (!user) {
+      alert("🚫 No account found with this email.");
+      return;
+    }
+
+    if (user.password !== password) {
+      alert("❌ Incorrect password.");
+      return;
+    }
+
+    // Successful login
+    alert("✅ Login successful!");
+    window.location.href = '/pages/app.html';
+  })
+  .catch(error => {
+    console.error("Error fetching user data:", error);
+    alert("Something went wrong while logging in.");
+  });
+});
+
   </script>
 
 </body>
