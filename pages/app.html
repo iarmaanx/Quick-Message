@@ -24,7 +24,7 @@
         </button>
         <a href="/index.html" class="flex items-center gap-3">
           <img src="/src/logo1.png" alt="Quick Message Logo" class="h-10 w-10 rounded-lg" />
-          <h1 class="text-xl md:text-2xl font-bold text-blue-600">Quick Message</h1>
+          <h1 class="text-xl md:text-2xl font-bold text-blue-600">Armaan Singh</h1>
         </a>
       </div>
 
@@ -37,39 +37,42 @@
     </header>
 
 
+
+
   <!-- Main Area -->
   <div class="relative z-10 flex flex-1 overflow-hidden">
+<!-- Aside -->
+<aside id="sidebar"
+  class="fixed md:relative top-0 left-0 w-64 md:w-[30%] h-full md:h-auto p-5 border-r border-gray-300 bg-white/70 backdrop-blur-sm z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col">
 
-    <!-- Sidebar (30%) -->
-    <aside id="sidebar"
-      class="fixed md:relative top-0 left-0 w-64 md:w-[30%] h-full md:h-auto p-5 border-r border-gray-300 bg-white/70 backdrop-blur-sm z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-blue-700">Chats</h2>
-        <button onclick="closeSidebar()" class="md:hidden text-red-500 text-xl font-bold">&times;</button>
-      </div>
-
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold text-blue-700">Chats</h2>
+    <button onclick="closeSidebar()" class="md:hidden text-red-500 text-xl font-bold">&times;</button>
+  </div>
 
   <!-- Search Bar -->
   <div class="mb-4 flex flex-wrap gap-2">
     <input type="text" id="searchInput" placeholder="Search..."
       class="w-[70%] md:flex-1 px-3 py-2 rounded-lg border border-gray-300 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-600 text-black" />
-    
     <button
-      class="w-[25%] md:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
-      🔍
-    </button>
+      class="w-[25%] md:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">🔍</button>
   </div>
 
-      <!-- Chat List -->
-      <ul id="chatList" class="space-y-3">
-        <li class="p-2 bg-white/30 backdrop-blur-sm rounded-lg text-blue-800 cursor-pointer hover:bg-white/50 transition">
-          Armaan</li>
-        <li class="p-2 bg-white/30 backdrop-blur-sm rounded-lg text-blue-800 cursor-pointer hover:bg-white/50 transition">
-          Priya</li>
-        <li class="p-2 bg-white/30 backdrop-blur-sm rounded-lg text-blue-800 cursor-pointer hover:bg-white/50 transition">
-          Rahul</li>
-      </ul>
-    </aside>
+  <!-- Chat List -->
+  <ul id="chatList" class="space-y-3 flex-1 overflow-y-auto">
+    <li class="p-2 bg-white/30 backdrop-blur-sm rounded-lg text-blue-800 cursor-pointer hover:bg-white/50 transition">Armaan</li>
+    <li class="p-2 bg-white/30 backdrop-blur-sm rounded-lg text-blue-800 cursor-pointer hover:bg-white/50 transition">Priya</li>
+    <li class="p-2 bg-white/30 backdrop-blur-sm rounded-lg text-blue-800 cursor-pointer hover:bg-white/50 transition">Rahul</li>
+    <!-- Add more chats if you want -->
+  </ul>
+
+  <!-- Logout button (mobile only) -->
+  <button onclick="logout()"
+    class="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition text-sm md:hidden">Logout</button>
+
+</aside>
+
+
 
     <!-- Chat Section (70%) -->
     <main id="chatSection" class="flex-1 flex flex-col justify-between w-full md:w-[70%] transition-all duration-300">
@@ -90,72 +93,7 @@
     </main>
   </div>
 
-  <script>
-      // Send message
-        function sendMessage() {
-      const messageInput = document.getElementById("messageInput");
-      const message = messageInput.value.trim();
-      if (!message) return;
-
-      const chatWindow = document.getElementById("chatWindow");
-
-      const messageWrapper = document.createElement("div");
-      messageWrapper.className = "flex justify-end";  // aligns to right
-
-      const messageDiv = document.createElement("div");
-      messageDiv.className =
-        "p-3 bg-white/60 backdrop-blur-sm rounded-xl max-w-xs text-left text-blue-800 shadow";
-      messageDiv.textContent = message;
-
-      messageWrapper.appendChild(messageDiv);
-      chatWindow.appendChild(messageWrapper);
-
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-      messageInput.value = "";
-    }
-
-
-    // Enter key to send
-    document.getElementById("messageInput").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-
-    // Mobile sidebar toggle
-    document.getElementById("toggleSidebar").addEventListener("click", function () {
-      document.getElementById("sidebar").classList.toggle("-translate-x-full");
-    });
-
-    // Desktop sidebar toggle
-    document.getElementById("desktopToggleSidebar").addEventListener("click", () => {
-      const sidebar = document.getElementById("sidebar");
-      const chatSection = document.getElementById("chatSection");
-      sidebar.classList.toggle("hidden");
-
-      if (sidebar.classList.contains("hidden")) {
-        chatSection.classList.remove("md:w-[70%]");
-        chatSection.classList.add("md:w-full");
-      } else {
-        chatSection.classList.remove("md:w-full");
-        chatSection.classList.add("md:w-[70%]");
-      }
-    });
-
-    // Close sidebar (for mobile)
-    function closeSidebar() {
-      document.getElementById("sidebar").classList.add("-translate-x-full");
-    }
-
-    // Logout
-    function logout() {
-      if (confirm("Are you sure you want to logout?")) {
-        window.location.href = "../index.html";
-      }
-    }
-
-  </script>
+  <script src="app.js"></script>
 
 </body>
 

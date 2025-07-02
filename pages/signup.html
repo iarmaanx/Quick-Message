@@ -40,7 +40,7 @@
   <header class="relative z-10 w-full p-6 flex items-center gap-3 backdrop-blur-sm bg-white/70 shadow-lg">
     <a href="/index.html" class="flex items-center gap-3">
       <img src="/src/logo1.png" alt="Quick Message Logo" class="h-10 w-10 rounded-lg" />
-      <h1 class="text-3xl font-bold text-blue-600">Quick Message</h1>
+      <h1 class="text-2xl font-bold text-blue-600">Quick Message</h1>
     </a>
   </header>
 
@@ -85,15 +85,7 @@
             onclick="sendVerification()">Next</button>
         </div>
          
-        <!-- Step 3: Platform ID -->
-        <div id="step-platform" class="hidden">
-          <label class="block text-left text-sm font-semibold text-gray-800 mb-1">Platform ID</label>
-          <input type="text" id="platformId" placeholder="Enter your Platform ID"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500" required />
-          <button type="button"
-            class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
-            onclick="nextStep('verification')">Next</button>
-        </div>
+  
 
         <!-- Step 3: Verification -->
         <div id="step-verification" class="hidden">
@@ -103,6 +95,17 @@
           <button type="button"
             class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
             onclick="verifyCode()">Verify</button>
+        </div>
+        
+
+              <!-- Step 3: Platform ID -->
+        <div id="step-platform" class="hidden">
+          <label class="block text-left text-sm font-semibold text-gray-800 mb-1">Platform ID</label>
+          <input type="text" id="platformId" placeholder="Enter your Platform ID"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500" required />
+          <button type="button"
+            class="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+            onclick="nextStep('password')">Next</button>
         </div>
 
         <!-- Step 4: Password -->
@@ -128,127 +131,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script>
-        window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-        setupEnterKey(); // activate Enter key bindings after load
-      }, 1500);
-    });
-
-        function nextStep(nextId) {
-      const visibleStep = document.querySelector('form > div:not(.hidden)');
-      const input = visibleStep.querySelector('input');
-      if (!input.value) {
-        input.reportValidity();
-        return;
-      }
-      const steps = ['step-name', 'step-email', 'step-platform', 'step-verification', 'step-password'];
-      steps.forEach(step => document.getElementById(step).classList.add('hidden'));
-      document.getElementById('step-' + nextId).classList.remove('hidden');
-      focusFirstInput(); // move focus to next input
-    }
-
-
-    function sendVerification() {
-      const email = document.getElementById('email');
-      if (!email.value) {
-        email.reportValidity();
-        return;
-      }
-      alert("Verification code sent to " + email.value);
-      nextStep('verification');
-    }
-
-    function verifyCode() {
-      const code = document.getElementById('verificationCode').value;
-      if (code === "") {
-        alert("Please enter the verification code.");
-        return;
-      }
-      if (code !== "1234") {
-        alert("Incorrect code. Try '1234' to proceed for demo.");
-        return;
-      }
-      nextStep('password');
-    }
-
-        function focusFirstInput() {
-      const visibleStep = document.querySelector('form > div:not(.hidden)');
-      const input = visibleStep.querySelector('input');
-      if (input) {
-        input.focus();
-      }
-    }
-
-    // Attach Enter key behavior dynamically
-    function setupEnterKey() {
-      const inputs = document.querySelectorAll('#signupForm input');
-      inputs.forEach(input => {
-        input.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            const stepId = this.closest('div').id;
-            if (stepId === 'step-name') nextStep('email');
-            else if (stepId === 'step-email') sendVerification();
-            else if (stepId === 'step-platform') nextStep('verification');
-            else if (stepId === 'step-verification') verifyCode();
-            else if (stepId === 'step-password') {
-              document.getElementById('signupForm').requestSubmit();
-            }
-          }
-        });
-      });
-    }
-
-
-    function togglePassword() {
-      const passwordInput = document.getElementById("password");
-      const toggleBtn = passwordInput.nextElementSibling;
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleBtn.textContent = "Hide";
-      } else {
-        passwordInput.type = "password";
-        toggleBtn.textContent = "Show";
-      }
-    }
-
-    document.getElementById('signupForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const password = document.getElementById('password');
-      if (!password.value) {
-        password.reportValidity();
-        return;
-      }
-      alert("✅ Account created successfully! Redirecting to your inbox...");
-      setTimeout(() => {
-        window.location.href = 'app.html';
-      }, 800);
-    });
-
-        const steps = ['step-name', 'step-email', 'step-platform', 'step-verification', 'step-password'];
-
-    function nextStep(nextId) {
-      const visibleStep = document.querySelector('form > div:not(.hidden)');
-      const input = visibleStep.querySelector('input');
-      if (!input.value) {
-        input.reportValidity();
-        return;
-      }
-      steps.forEach(step => document.getElementById(step).classList.add('hidden'));
-      document.getElementById('step-' + nextId).classList.remove('hidden');
-      focusFirstInput();
-    }
-
-    function backStep(prevId) {
-      steps.forEach(step => document.getElementById(step).classList.add('hidden'));
-      document.getElementById('step-' + prevId).classList.remove('hidden');
-      focusFirstInput();
-    }
-
-  </script>
+<script src="signup.js"></script>
 
 </body>
 
